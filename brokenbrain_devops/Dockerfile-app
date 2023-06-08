@@ -1,0 +1,6 @@
+FROM openjdk:17
+
+COPY ./agro.jar /usr/src/agro.jar
+
+WORKDIR /usr/src
+
