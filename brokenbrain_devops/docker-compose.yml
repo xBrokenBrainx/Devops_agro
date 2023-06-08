@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  db_container:
+    image: mariadb:10.5
+    build:
+      context: .
+      dockerfile: Dockerfile-db
+    volumes:
+      - db_data:/var/lib/mysql  
+    restart: always
+    networks:
+      - agro-net         
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: usuario      
+      MYSQL_DATABASE: db_agro 
+    container_name: db_container
+
+  app_container:
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    depends_on:
+      - db_container
+    restart: always
+    networks:
+      - agro-net
+    container_name: app_container
+
+networks:
+  agro-net:
+       driver: bridge
+
+volumes:
+  db_data:
